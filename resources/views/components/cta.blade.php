@@ -1,0 +1,1 @@
+<section class="cta-section"><div class="container cta-inner"><div><p class="eyebrow">BİR SONRAKİ ADIM</p><h2>Fikrinizi birlikte<br>üretime yaklaştıralım.</h2><p>İhtiyacınızı tanımlayın, teknik çözümün ilk adımını birlikte atalım.</p></div><x-button :href="route('contact')">Projenizi konuşalım <span aria-hidden="true">↗</span></x-button></div></section>
