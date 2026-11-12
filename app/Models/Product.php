@@ -1,0 +1,79 @@
+<?php
+
+namespace App\Models;
+
+use Database\Factories\ProductFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
+
+#[Fillable(['category_id', 'name', 'slug', 'sku', 'short_description', 'description', 'image', 'is_featured', 'is_active', 'sort_order'])]
+class Product extends Model
+{
+    /** @use HasFactory<ProductFactory> */
+    use HasFactory;
+
+    protected function casts(): array
+    {
+        return ['is_featured' => 'boolean', 'is_active' => 'boolean', 'sort_order' => 'integer'];
+    }
+
+    /** @return BelongsTo<Category, $this> */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    /** @param Builder<static> $query */
+    #[Scope]
+    protected function active(Builder $query): void
+    {
+        $query->where('is_active', true);
+    }
+
+    /** @param Builder<static> $query */
+    #[Scope]
+    protected function visible(Builder $query): void
+    {
+        $query->active()->whereHas('category', fn (Builder $categoryQuery) => $categoryQuery->active());
+    }
+
+    /** @param Builder<static> $query */
+    #[Scope]
+    protected function featured(Builder $query): void
+    {
+        $query->where('is_featured', true);
+    }
+
+    /** @param Builder<static> $query */
+    #[Scope]
+    protected function ordered(Builder $query): void
+    {
+        $query->orderBy('sort_order')->orderBy('id');
+    }
+
+    /** @return Attribute<string, never> */
+    protected function imageUrl(): Attribute
+    {
+        return Attribute::get(function (): string {
+            $image = $this->image;
+            $imagesDirectory = realpath(public_path('images'));
+            $imagePath = is_string($image) && Str::startsWith($image, 'images/')
+                ? realpath(public_path($image))
+                : false;
+
+            if ($imagesDirectory !== false && $imagePath !== false
+                && Str::startsWith($imagePath, $imagesDirectory.DIRECTORY_SEPARATOR)
+                && is_file($imagePath)) {
+                return asset($image);
+            }
+
+            return asset('images/product-placeholder.svg');
+        });
+    }
+}

@@ -116,11 +116,21 @@
     .principle > span { font-size: 10px; letter-spacing: .1em; color: #98431c; }
     .principle h3 { margin-block: 25px 17px; }
     .principle p { font-size: 13px; color: #52616c; }
+    .catalog-empty { padding: 40px 24px; background: #f3f5f4; border: 1px solid #dce2e5; }
+    .catalog-empty p { margin-top: 16px; color: #52616c; font-size: 14px; }
+    .catalog-pagination { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 32px; font-size: 13px; }
+    .catalog-pagination a { border-bottom: 1px solid #b8c2c8; padding-block: 10px; }
+    .catalog-pagination [aria-disabled] { color: #5b6973; }
+    .product-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; margin-top: 40px; }
+    .product-detail-image { background: #e7ecee; }
+    .product-detail-image img { width: 100%; height: auto; }
+    .product-detail-image figcaption { padding: 16px 22px; color: #52616c; font-size: 11px; }
+    .product-description { white-space: pre-line; overflow-wrap: anywhere; color: #52616c; margin-top: 24px; }
     .catalog-title { font-size: 30px; }
     .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
-    .filters button { border: 1px solid #cbd3d9; padding: 12px 20px; font-size: 12px; }
-    .filters button[aria-pressed=true] { background: #112536; border-color: #112536; color: white; }
-    .filters button:hover { border-color: #ad4a1e; }
+    .filters a { border: 1px solid #cbd3d9; padding: 12px 20px; font-size: 12px; }
+    .filters a[aria-current=page] { background: #112536; border-color: #112536; color: white; }
+    .filters a:hover { border-color: #ad4a1e; }
     .catalog-disclaimer { border-top: 1px solid #dce2e5; padding-top: 24px; margin-top: 40px; max-width: 850px; font-size: 12px; color: #5b6973; }
     .process-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 35px; margin-top: 50px; }
     .process-grid article { border-top: 1px solid #b7c4ca; padding-top: 20px; }
@@ -188,6 +198,7 @@
     .page-heading h1 { font-size: 2.8rem; }
     .breadcrumb { margin-top: 35px; }
     .contact-form { padding: 24px 18px; }
+    .product-detail-grid { grid-template-columns: 1fr; gap: 32px; }
     .process-grid { gap: 28px; }
     .process-grid h3 { font-size: 18px; }
     #navigation { gap: 7px 22px; }

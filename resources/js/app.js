@@ -25,20 +25,3 @@ if (menuButton && navigation) {
     navigation.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
     window.matchMedia('(min-width: 1024px)').addEventListener('change', closeMenu);
 }
-
-const catalog = document.querySelector('[data-catalog]');
-if (catalog) {
-    catalog.querySelector('.filters').hidden = false;
-    const cards = [...catalog.querySelectorAll('[data-category]')];
-    catalog.querySelectorAll('[data-filter]').forEach((button) => {
-        button.addEventListener('click', () => {
-            catalog.querySelectorAll('[data-filter]').forEach((filter) => {
-                filter.setAttribute('aria-pressed', String(filter === button));
-            });
-            cards.forEach((card) => {
-                card.hidden = button.dataset.filter !== 'all' && card.dataset.category !== button.dataset.filter;
-            });
-            catalog.querySelector('[data-product-count]').textContent = `${cards.filter((card) => !card.hidden).length} ürün grubu gösteriliyor.`;
-        });
-    });
-}

@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'pages.home', ['products' => array_slice(config('nova.products'), 0, 3), 'services' => config('nova.services')])->name('home');
+Route::get('/', HomeController::class)->name('home');
 Route::view('/hakkimizda', 'hakkimizda')->name('about');
-Route::view('/urunler', 'urunler', ['products' => config('nova.products')])->name('products');
+Route::get('/urunler', [ProductController::class, 'index'])->name('products');
+Route::get('/urunler/{slug}', [ProductController::class, 'show'])->name('products.show');
 Route::view('/hizmetler', 'hizmetler', ['services' => config('nova.services')])->name('services');
 Route::view('/iletisim', 'iletisim')->name('contact');

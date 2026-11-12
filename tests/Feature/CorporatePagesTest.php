@@ -1,5 +1,7 @@
 <?php
 
+use Database\Seeders\CatalogSeeder;
+
 test('corporate pages render their content with shared navigation', function (string $path, string $heading) {
     $this->get($path)
         ->assertOk()
@@ -16,6 +18,8 @@ test('corporate pages render their content with shared navigation', function (st
 ]);
 
 test('catalog displays all example products and identifies illustrative content', function () {
+    $this->seed(CatalogSeeder::class);
+
     $this->get('/urunler')
         ->assertOk()
         ->assertSeeText('Hassas işlenmiş parçalar')
