@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import './post-content.css';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @theme {
@@ -205,3 +206,37 @@
     #navigation .nav-cta { width: 100%; margin-top: 10px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
+
+@layer components {
+.post-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 28px; }
+.post-grid > .catalog-empty { grid-column: 1 / -1; }
+.post-index-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; gap: 25px; }
+.post-index-top .eyebrow { margin: 0; }
+.post-card { border: 1px solid #dce3e7; background: white; min-width: 0; }
+.post-cover { display: block; position: relative; overflow: hidden; background: #e9eef0; }
+.post-cover img { width: 100%; aspect-ratio: 1.6; object-fit: cover; transition: transform .3s; }
+.post-cover:hover img { transform: scale(1.03); }
+.post-cover > span { position: absolute; bottom: 18px; left: 20px; padding: 5px 9px; background: #112536; color: white; font-size: 9px; letter-spacing: .12em; }
+.post-card-body { padding: 28px; }
+.post-card h2 { font-size: 23px; line-height: 1.3; }
+.post-card-body > p:not(.eyebrow) { font-size: 13px; color: #526b7c; margin-top: 18px; }
+.post-meta { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; color: #8a421f; font-size: 10px; margin-bottom: 22px; }
+.post-meta time { color: #687e8c; }
+.post-card-featured { display: grid; grid-template-columns: 1.15fr 1fr; margin-bottom: 50px; }
+.post-card-featured .post-cover img { height: 100%; min-height: 340px; }
+.post-card-featured .post-card-body { align-self: center; padding: 42px; }
+.post-card-featured h2 { font-size: clamp(26px,3vw,36px); }
+.post-card-featured .eyebrow { font-size: 9px; color: #9c4c26; margin-bottom: 18px; }
+.post-detail-heading { background: #112536; color: white; padding-block: 42px 70px; }
+.post-back { font-size: 12px; color: #c0cfd9; display: inline-block; margin-bottom: 52px; }
+.post-detail-heading .eyebrow { color: #f29a69; }
+.post-detail-heading h1 { max-width: 1000px; font-size: clamp(2.5rem,4.8vw,4.5rem); line-height: 1.1; }
+.post-detail-excerpt { max-width: 740px; font-size: 17px; color: #b7c9d6; margin-top: 28px; }
+.post-byline { display: flex; gap: 15px; font-size: 11px; color: #bdced9; margin-top: 30px; }
+.post-detail-cover { padding-top: 50px; max-width: 1056px; }
+.post-detail-cover img { width: 100%; max-height: 520px; object-fit: cover; }
+.post-article-footer { max-width: 720px; width: calc(100% - 40px); margin: 0 auto 60px; padding-top: 25px; border-top: 1px solid #dce3e7; display: flex; justify-content: space-between; gap: 20px; font-size: 12px; color: #526b7c; }
+}
+@media(min-width:1024px) and (max-width:1279px) { #navigation { gap: 13px; font-size: 12px; } .nav-cta { padding: 12px; gap: 12px; } .wordmark { font-size: 24px; } }
+@media(max-width:900px) { .post-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } .post-card-featured .post-card-body { padding: 26px; } }
+@media(max-width:639px) { .post-grid,.post-card-featured { grid-template-columns: 1fr; } .post-card-featured .post-cover img { min-height: 0; } .post-detail-heading { padding-bottom: 45px; } .post-index-top { align-items: start; flex-direction: column; gap: 10px; } .post-prose { font-size: 16px; margin-block: 40px; } }

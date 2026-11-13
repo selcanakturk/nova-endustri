@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\Category;
+use App\Models\Post;
 use App\Models\Product;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -13,26 +14,27 @@ use Throwable;
 class CatalogImage
 {
     /** @param array<string, mixed> $attributes */
-    public static function save(Product|Category $entry, array $attributes, ?UploadedFile $image, bool $removeImage): void
+    public static function save(Product|Category|Post $entry, array $attributes, ?UploadedFile $image, bool $removeImage): void
     {
-        $previousImage = $entry->image;
+        $imageField = $entry instanceof Post ? 'cover_image' : 'image';
+        $previousImage = $entry->{$imageField};
         $newImage = null;
 
         try {
             if ($image !== null) {
-                $newImage = $image->store('catalog', 'public');
+                $newImage = $image->store($entry instanceof Post ? 'posts' : 'catalog', 'public');
 
                 if ($newImage === false) {
-                    throw ValidationException::withMessages(['image' => 'Görsel kaydedilemedi. Lütfen tekrar deneyin.']);
+                    throw ValidationException::withMessages([$imageField => 'Görsel kaydedilemedi. Lütfen tekrar deneyin.']);
                 }
             }
 
             $entry->fill($attributes);
 
             if ($newImage !== null) {
-                $entry->image = $newImage;
+                $entry->{$imageField} = $newImage;
             } elseif ($removeImage) {
-                $entry->image = null;
+                $entry->{$imageField} = null;
             }
 
             $entry->save();
@@ -44,7 +46,7 @@ class CatalogImage
             throw $exception;
         }
 
-        if ($entry->image !== $previousImage) {
+        if ($entry->{$imageField} !== $previousImage) {
             self::deleteIfUnused($previousImage);
         }
     }
@@ -53,12 +55,13 @@ class CatalogImage
     {
         if (self::isUpload($path)
             && ! Product::where('image', $path)->exists()
-            && ! Category::where('image', $path)->exists()) {
+            && ! Category::where('image', $path)->exists()
+            && ! Post::where('cover_image', $path)->exists()) {
             Storage::disk('public')->delete($path);
         }
     }
 
-    public static function url(?string $path): string
+    public static function url(?string $path, string $placeholder = 'images/product-placeholder.svg'): string
     {
         if (self::isUpload($path) && Storage::disk('public')->exists($path)) {
             return Storage::disk('public')->url($path);
@@ -72,11 +75,11 @@ class CatalogImage
             return asset($path);
         }
 
-        return asset('images/product-placeholder.svg');
+        return asset($placeholder);
     }
 
     private static function isUpload(?string $path): bool
     {
-        return is_string($path) && preg_match('/\Acatalog\/[a-zA-Z0-9_-]+\.(?:jpg|jpeg|png|webp)\z/', $path) === 1;
+        return is_string($path) && preg_match('/\A(?:catalog|posts)\/[a-zA-Z0-9_-]+\.(?:jpg|jpeg|png|webp)\z/', $path) === 1;
     }
 }

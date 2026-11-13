@@ -1,0 +1,14 @@
+@layer components {
+.post-prose { width: min(720px, calc(100% - 40px)); margin: 64px auto; font-size: 17px; line-height: 1.9; color: #425a6a; overflow-wrap: anywhere; }
+.post-prose h2 { font-size: 29px; color: #112536; margin: 44px 0 20px; line-height: 1.25; }
+.post-prose h3 { font-size: 23px; color: #112536; margin: 32px 0 16px; }
+.post-prose p { margin-block: 18px; }
+.post-prose ul, .post-prose ol { padding-left: 25px; margin-block: 24px; }
+.post-prose ul { list-style: disc; } .post-prose ol { list-style: decimal; }
+.post-prose li { padding-left: 5px; margin-block: 9px; }
+.post-prose strong { color: #19374b; font-weight: 600; }
+.post-prose a { color: #97431f; text-decoration: underline; text-underline-offset: 4px; }
+.post-prose blockquote { border-left: 3px solid #d97541; padding: 5px 0 5px 24px; margin-block: 30px; font-style: italic; color: #526c7c; }
+.post-prose img { max-width: 100%; height: auto; } .post-prose pre { overflow-x: auto; background: #f0f3f5; padding: 18px; }
+.post-prose code { font-size: .85em; }
+}

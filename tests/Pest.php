@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Category;
+use App\Models\PostCategory;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Tests\TestCase;
 
@@ -68,4 +69,17 @@ function adminProductData(Category $category, array $overrides = []): array
 function adminCategoryData(array $overrides = []): array
 {
     return array_replace(['name' => 'Yeni kategori', 'slug' => 'yeni-kategori', 'description' => 'Kategori açıklaması.', 'is_active' => '1', 'sort_order' => '0'], $overrides);
+}
+
+/** @param array<string, mixed> $overrides
+ * @return array<string, mixed>
+ */
+function adminPostData(PostCategory $category, array $overrides = []): array
+{
+    return array_replace([
+        'post_category_id' => $category->id, 'title' => 'Yeni yazı', 'slug' => 'yeni-yazi',
+        'excerpt' => 'Kısa yazı açıklaması.', 'content' => "## Süreç\n\nÖzenli **üretim**.",
+        'type' => 'article', 'status' => 'draft', 'published_at' => null,
+        'is_featured' => '0', 'sort_order' => '0', 'meta_title' => null, 'meta_description' => null,
+    ], $overrides);
 }

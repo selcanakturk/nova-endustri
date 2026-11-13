@@ -1,0 +1,8 @@
+<x-layout :title="$post->meta_title ?? $post->title" :description="$post->meta_description ?? $post->excerpt" :canonical="$post->public_url" :og-image="$post->cover_image ? $post->image_url : null" og-type="article">
+    <article><header class="post-detail-heading"><div class="container"><a class="post-back" href="{{ route($isNews ? 'news.index' : 'blog.index') }}">← {{ $isNews ? 'Haberlere dön' : 'Bloga dön' }}</a><p class="eyebrow">{{ $post->category->name }} / {{ $isNews ? 'HABER' : 'MAKALE' }}</p><h1>{{ $post->title }}</h1><p class="post-detail-excerpt">{{ $post->excerpt }}</p><div class="post-byline"><span>{{ $post->author->name }}</span><span aria-hidden="true">·</span><time datetime="{{ $post->published_at->toIso8601String() }}">{{ $post->published_at->timezone(config('nova.editorial_timezone'))->format('d.m.Y') }}</time></div></div></header>
+        <div class="container post-detail-cover"><img src="{{ $post->image_url }}" alt="{{ $post->title }} için temsili kapak görseli" width="960" height="600" fetchpriority="high"></div>
+        <div class="post-prose">{!! $post->content_html !!}</div>
+        <footer class="post-article-footer"><span>{{ $post->category->name }}</span><a href="{{ route($isNews ? 'news.index' : 'blog.index', ['category' => $post->category->slug]) }}">Bu kategorideki içerikler ↗</a></footer>
+    </article>
+    @if($related->isNotEmpty())<section class="section section-muted"><div class="container"><div class="section-top"><div><p class="eyebrow">OKUMAYA DEVAM EDİN</p><h2>İlgili {{ $isNews ? 'haberler' : 'yazılar' }}</h2></div></div><div class="post-grid">@foreach($related as $relatedPost)<x-post-card :post="$relatedPost" />@endforeach</div></div></section>@endif
+</x-layout>

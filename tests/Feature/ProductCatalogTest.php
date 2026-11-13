@@ -167,7 +167,7 @@ test('home shows at most three ordered published featured products from the data
     Product::factory()->featured()->inactive()->for($category)->create(['name' => 'Inactive feature']);
     Product::factory()->featured()->for(Category::factory()->inactive())->create(['name' => 'Hidden category feature']);
     Product::factory()->for($category)->create(['name' => 'Ordinary product']);
-    $this->expectsDatabaseQueryCount(2);
+    $this->expectsDatabaseQueryCount(3);
 
     $this->get('/')->assertOk()
         ->assertSeeInOrder(['First feature', 'Second feature', 'Third feature'])

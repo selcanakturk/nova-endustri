@@ -1,0 +1,18 @@
+<x-admin.layout :title="$post->exists ? 'İçeriği düzenle' : 'Yeni içerik'">
+    <div class="admin-page-intro"><a class="admin-link" href="{{ route('admin.posts.index') }}">← İçerik listesine dön</a><span class="admin-subtle">* işaretli alanlar zorunludur</span></div>
+    @if($categories->isEmpty())<div class="admin-alert">Önce <a class="admin-link" href="{{ route('admin.post-categories.create') }}">bir blog kategorisi oluşturun</a>.</div>@endif
+    <form method="POST" action="{{ $post->exists ? route('admin.posts.update', $post) : route('admin.posts.store') }}" enctype="multipart/form-data" class="admin-editor">@csrf @if($post->exists) @method('PUT') @endif
+        <div class="admin-panel admin-form-panel"><h2>İçerik bilgileri</h2><p class="admin-panel-description">Okunabilir, açık ve yararlı içerikler hazırlayın.</p>
+            <x-admin.field name="title" label="Başlık" :value="$post->title" maxlength="255" required />
+            <x-admin.field name="slug" label="Slug" :value="$post->slug" maxlength="255" :hint="$post->exists ? 'Boş bırakırsanız mevcut bağlantı korunur. Değiştirmek eski bağlantıyı geçersiz kılar.' : 'Boş bırakırsanız başlıktan otomatik üretilir.'" />
+            <div class="admin-form-grid"><x-admin.field name="post_category_id" label="Blog kategorisi" type="select" :value="$post->post_category_id" :options="['' => 'Kategori seçin'] + $categories->mapWithKeys(fn ($category) => [$category->id => $category->name.($category->is_active ? '' : ' (Pasif)')])->all()" required /><x-admin.field name="type" label="İçerik türü" type="select" :value="$post->type" :options="['article' => 'Makale', 'news' => 'Haber']" required /></div>
+            <x-admin.field name="excerpt" label="Kısa açıklama" type="textarea" :value="$post->excerpt" rows="3" maxlength="1000" required />
+            <x-admin.markdown-editor :value="$post->content" />
+        </div>
+        <aside class="admin-editor-side"><section class="admin-panel admin-form-panel"><h2>Yayın ayarları</h2><x-admin.field name="status" label="Yayın durumu" type="select" :value="$post->status" :options="['draft' => 'Taslak', 'published' => 'Yayınla / Planla']" required /><x-admin.field name="published_at" label="Yayın tarihi (İstanbul)" type="datetime-local" :value="$post->published_at?->timezone(config('nova.editorial_timezone'))->format('Y-m-d\TH:i')" hint="Yayınlamak için tarih girin. Gelecek tarihli içerik, zamanı geldiğinde otomatik görünür." /><label class="admin-check"><input type="hidden" name="is_featured" value="0"><input type="checkbox" name="is_featured" value="1" @checked(old('is_featured', $post->is_featured))> Listede öne çıkar</label><x-admin.field name="sort_order" label="Sıralama" type="number" :value="$post->sort_order" min="0" max="2147483647" required hint="Aynı yayın tarihindeki içeriklerde küçük değer önce gelir." /></section>
+            <section class="admin-panel admin-form-panel"><x-admin.image-field :entry="$post" name="cover_image" attribute="cover_image" /></section>
+            <section class="admin-panel admin-form-panel"><h2>Arama ve paylaşım</h2><x-admin.field name="meta_title" label="SEO başlığı" :value="$post->meta_title" maxlength="70" hint="Boşsa içerik başlığı kullanılır." /><x-admin.field name="meta_description" label="SEO açıklaması" type="textarea" :value="$post->meta_description" rows="4" maxlength="160" hint="Boşsa kısa açıklama kullanılır." /></section>
+        </aside>
+        <div class="admin-save-bar"><a class="admin-button admin-button-secondary" href="{{ route('admin.posts.index') }}">Vazgeç</a><button type="submit" class="admin-button">{{ $post->exists ? 'Değişiklikleri kaydet' : 'İçeriği oluştur' }} →</button></div>
+    </form>
+</x-admin.layout>

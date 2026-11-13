@@ -21,6 +21,8 @@
             <a href="{{ route('admin.dashboard') }}" @if(request()->routeIs('admin.dashboard')) aria-current="page" @endif><span aria-hidden="true">▦</span> Genel bakış</a>
             <a href="{{ route('admin.products.index') }}" @if(request()->routeIs('admin.products.*')) aria-current="page" @endif><span aria-hidden="true">◇</span> Ürünler</a>
             <a href="{{ route('admin.categories.index') }}" @if(request()->routeIs('admin.categories.*')) aria-current="page" @endif><span aria-hidden="true">▤</span> Kategoriler</a>
+            <a href="{{ route('admin.posts.index') }}" @if(request()->routeIs('admin.posts.*')) aria-current="page" @endif><span aria-hidden="true">▧</span> İçerikler</a>
+            <a href="{{ route('admin.post-categories.index') }}" @if(request()->routeIs('admin.post-categories.*')) aria-current="page" @endif><span aria-hidden="true">≡</span> Blog kategorileri</a>
         </nav>
         <div class="admin-sidebar-bottom"><span class="admin-nav-heading">NOVA ENDÜSTRİ</span><p>İçeriğinizi yönetin.<br>Üretiminizi görünür kılın.</p><a href="{{ route('home') }}">Kurumsal siteyi aç <span aria-hidden="true">↗</span></a></div>
     </aside>
