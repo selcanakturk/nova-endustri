@@ -1,0 +1,16 @@
+<x-admin.layout :title="$product->exists ? 'Ürünü düzenle' : 'Yeni ürün'">
+    <div class="admin-page-intro"><a class="admin-link" href="{{ route('admin.products.index') }}">← Ürün listesine dön</a><span class="admin-subtle">* işaretli alanlar zorunludur</span></div>
+    @if($categories->isEmpty())<div class="admin-alert" role="status">Ürün eklemek için önce <a class="admin-link" href="{{ route('admin.categories.create') }}">bir kategori oluşturun</a>.</div>@endif
+    <form method="POST" action="{{ $product->exists ? route('admin.products.update', $product) : route('admin.products.store') }}" enctype="multipart/form-data" class="admin-editor">
+        @csrf @if($product->exists) @method('PUT') @endif
+        <div class="admin-panel admin-form-panel"><h2>Ürün bilgileri</h2><p class="admin-panel-description">Kataloğunuz için açık ve anlaşılır bilgiler ekleyin.</p>
+            <x-admin.field name="name" label="Ürün adı" :value="$product->name" maxlength="255" required />
+            <div class="admin-form-grid"><x-admin.field name="slug" label="Slug" :value="$product->slug" maxlength="255" hint="Boş bırakırsanız addan üretilir. Değiştirmeniz ürün bağlantısını değiştirir." /><x-admin.field name="sku" label="SKU / Ürün kodu" :value="$product->sku" maxlength="100" hint="İsteğe bağlı, benzersiz ürün kodu." /></div>
+            <x-admin.field name="category_id" label="Kategori" type="select" :value="$product->category_id" :options="['' => 'Kategori seçin'] + $categories->mapWithKeys(fn ($category) => [$category->id => $category->name.($category->is_active ? '' : ' (Pasif)')])->all()" required hint="Pasif kategorilere bağlı ürünler sitede gösterilmez." />
+            <x-admin.field name="short_description" label="Kısa açıklama" type="textarea" :value="$product->short_description" rows="3" maxlength="1000" hint="Ürün kartında ve detay başlığında gösterilir." />
+            <x-admin.field name="description" label="Detaylı açıklama" type="textarea" :value="$product->description" rows="8" maxlength="50000" hint="Düz metin kullanın. Satır sonları detay sayfasında korunur." />
+        </div>
+        <aside class="admin-editor-side"><section class="admin-panel admin-form-panel"><h2>Yayın ayarları</h2><label class="admin-check"><input type="hidden" name="is_active" value="0"><input type="checkbox" name="is_active" value="1" @checked(old('is_active', $product->is_active))> Ürün aktif</label><label class="admin-check"><input type="hidden" name="is_featured" value="0"><input type="checkbox" name="is_featured" value="1" @checked(old('is_featured', $product->is_featured))> Ana sayfada öne çıkar</label><p class="admin-field-hint">Ana sayfada sıralamaya göre ilk 3 aktif ürün gösterilir.</p><x-admin.field name="sort_order" label="Görüntülenme sırası" type="number" :value="$product->sort_order" min="0" max="2147483647" required hint="Küçük değerler önce gösterilir." /></section><section class="admin-panel admin-form-panel"><x-admin.image-field :entry="$product" /></section></aside>
+        <div class="admin-save-bar"><a class="admin-button admin-button-secondary" href="{{ route('admin.products.index') }}">Vazgeç</a><button type="submit" class="admin-button">{{ $product->exists ? 'Değişiklikleri kaydet' : 'Ürünü oluştur' }} <span aria-hidden="true">→</span></button></div>
+    </form>
+</x-admin.layout>

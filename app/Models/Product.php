@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\CatalogImage;
 use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -10,7 +11,6 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Str;
 
 #[Fillable(['category_id', 'name', 'slug', 'sku', 'short_description', 'description', 'image', 'is_featured', 'is_active', 'sort_order'])]
 class Product extends Model
@@ -60,20 +60,6 @@ class Product extends Model
     /** @return Attribute<string, never> */
     protected function imageUrl(): Attribute
     {
-        return Attribute::get(function (): string {
-            $image = $this->image;
-            $imagesDirectory = realpath(public_path('images'));
-            $imagePath = is_string($image) && Str::startsWith($image, 'images/')
-                ? realpath(public_path($image))
-                : false;
-
-            if ($imagesDirectory !== false && $imagePath !== false
-                && Str::startsWith($imagePath, $imagesDirectory.DIRECTORY_SEPARATOR)
-                && is_file($imagePath)) {
-                return asset($image);
-            }
-
-            return asset('images/product-placeholder.svg');
-        });
+        return Attribute::get(fn (): string => CatalogImage::url($this->image));
     }
 }

@@ -1,0 +1,13 @@
+<x-admin.layout title="Genel bakış">
+    <div class="admin-page-intro"><p>Hoş geldiniz, {{ auth()->user()->name }}. Kataloğunuzun güncel durumu burada.</p><a href="{{ route('admin.products.create') }}" class="admin-button"><span aria-hidden="true">+</span> Yeni ürün ekle</a></div>
+    <div class="admin-stats">
+        @foreach(['total_products' => ['Toplam ürün', 'Katalogdaki tüm ürünler'], 'active_products' => ['Aktif ürün', 'Aktif olarak işaretlenen'], 'inactive_products' => ['Pasif ürün', 'Yayına kapalı ürünler'], 'total_categories' => ['Kategori', 'Kataloğunuzun yapısı']] as $key => [$label, $hint])
+            <article class="admin-stat"><span>{{ $label }}</span><strong>{{ $stats[$key] }}</strong><p>{{ $hint }}</p></article>
+        @endforeach
+    </div>
+    <div class="admin-dashboard-grid"><section class="admin-panel"><div class="admin-panel-heading"><div><h2>Son eklenen ürünler</h2><p>Katalogdaki en yeni kayıtlar.</p></div><a class="admin-link" href="{{ route('admin.products.index') }}">Tüm ürünler ↗</a></div>
+        <div class="admin-table-scroll"><table class="admin-table"><thead><tr><th scope="col">Ürün</th><th scope="col">Kategori</th><th scope="col">Durum</th><th scope="col"><span class="sr-only">İşlem</span></th></tr></thead><tbody>
+            @forelse($recentProducts as $product)<tr><td><a class="admin-table-name" href="{{ route('admin.products.edit', $product) }}">{{ $product->name }}</a><small>{{ $product->created_at->format('d.m.Y') }}</small></td><td>{{ $product->category->name }}</td><td><x-admin.status :active="$product->is_active" /></td><td><a class="admin-link" href="{{ route('admin.products.edit', $product) }}">Düzenle<span class="sr-only"> {{ $product->name }}</span> ↗</a></td></tr>@empty<tr><td colspan="4"><div class="admin-empty"><h3>İlk ürününüzle başlayın.</h3><p>Eklediğiniz ürünler burada görünecek.</p><a class="admin-link" href="{{ route('admin.products.create') }}">Ürün ekle →</a></div></td></tr>@endforelse
+        </tbody></table></div></section>
+        <aside class="admin-quick-panel"><p class="admin-eyebrow">KATALOĞUNUZU GELİŞTİRİN</p><h2>Her şey<br>yerli yerinde.</h2><p>Önce kategorilerinizi oluşturun, ardından ürünlerinizi doğru başlıklar altında düzenleyin.</p><a href="{{ route('admin.categories.create') }}">Yeni kategori <span aria-hidden="true">↗</span></a><a href="{{ route('admin.products.index') }}">Ürünleri yönet <span aria-hidden="true">↗</span></a><p class="admin-quick-note">Pasif kategorilere bağlı ürünler kurumsal sitede gösterilmez.</p></aside></div>
+</x-admin.layout>

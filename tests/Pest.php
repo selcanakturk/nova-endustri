@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Tests\TestCase;
 
@@ -47,4 +48,24 @@ expect()->extend('toBeOne', function () {
 function something()
 {
     // ..
+}
+
+/** @param array<string, mixed> $overrides
+ * @return array<string, mixed>
+ */
+function adminProductData(Category $category, array $overrides = []): array
+{
+    return array_replace([
+        'category_id' => $category->id, 'name' => 'Yeni ürün', 'slug' => 'yeni-urun', 'sku' => 'NOVA-TEST',
+        'short_description' => 'Ürün özeti.', 'description' => 'Ürün detaylı açıklaması.',
+        'is_active' => '1', 'is_featured' => '0', 'sort_order' => '0',
+    ], $overrides);
+}
+
+/** @param array<string, mixed> $overrides
+ * @return array<string, mixed>
+ */
+function adminCategoryData(array $overrides = []): array
+{
+    return array_replace(['name' => 'Yeni kategori', 'slug' => 'yeni-kategori', 'description' => 'Kategori açıklaması.', 'is_active' => '1', 'sort_order' => '0'], $overrides);
 }
