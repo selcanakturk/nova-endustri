@@ -1,0 +1,2 @@
+<div hidden aria-hidden="true"><label for="website">Bu alanı boş bırakın</label><input type="text" id="website" name="website" value="" tabindex="-1" autocomplete="off"></div>
+<p class="inquiry-privacy" id="inquiry-privacy">Paylaştığınız bilgiler talebinizin takibi için kaydedilir. <a href="{{ route('privacy') }}">Veri işleme hakkında bilgilendirme</a> sayfasını inceleyin. Bu proje için hukuken onaylanmış bir aydınlatma metni henüz hazır değildir; yayına çıkmadan önce tamamlanmalıdır.</p>

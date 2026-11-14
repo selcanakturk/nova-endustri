@@ -14,7 +14,7 @@
                     @if($product->sku)<p class="catalog-note mt-5">Ürün kodu: {{ $product->sku }}</p>@endif
                     <p class="product-description">{{ $product->description ?? 'Detaylı açıklama henüz eklenmedi. Teknik ihtiyaçlarınızı birlikte değerlendirebiliriz.' }}</p>
                     <p class="catalog-note mt-6">Örnek katalog içeriğidir. Malzeme, ölçü ve uygulama gereksinimleri proje bazında değerlendirilir.</p>
-                    <x-button :href="route('contact')">Bu ürün için görüşelim <span aria-hidden="true">↗</span></x-button>
+                    <x-button :href="route('quotes.create', $product->slug)">Teklif İste <span aria-hidden="true">↗</span></x-button>
                 </div>
             </div>
         </div>

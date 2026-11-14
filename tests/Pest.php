@@ -83,3 +83,19 @@ function adminPostData(PostCategory $category, array $overrides = []): array
         'is_featured' => '0', 'sort_order' => '0', 'meta_title' => null, 'meta_description' => null,
     ], $overrides);
 }
+
+/** @param array<string, mixed> $overrides
+ * @return array<string, mixed>
+ */
+function contactData(array $overrides = []): array
+{
+    return array_replace(['name' => 'Test Customer', 'email' => 'customer@example.test', 'phone' => '+90 555 123 45 67', 'company' => 'Test Company', 'subject' => 'Üretim sorusu', 'message' => 'Projemiz hakkında görüşmek istiyoruz.', 'website' => ''], $overrides);
+}
+
+/** @param array<string, mixed> $overrides
+ * @return array<string, mixed>
+ */
+function quoteData(array $overrides = []): array
+{
+    return array_replace(['name' => 'Quote Customer', 'email' => 'quote@example.test', 'phone' => '+90 555 123 45 67', 'company' => 'Test Company', 'quantity' => '12.500', 'unit' => 'kg', 'message' => 'Malzeme ve teslim bilgisi rica ediyoruz.', 'website' => ''], $overrides);
+}

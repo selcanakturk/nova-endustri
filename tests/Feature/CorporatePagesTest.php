@@ -27,11 +27,13 @@ test('catalog displays all example products and identifies illustrative content'
         ->assertSeeText('satışa sunulan gerçek ürünleri');
 });
 
-test('contact page explicitly disables submission without claiming success', function () {
+test('contact page offers a protected live form and honest privacy information', function () {
     $this->get('/iletisim')
         ->assertOk()
-        ->assertSeeText('Form henüz gönderime açık değil.')
-        ->assertSee('<fieldset disabled>', false)
+        ->assertSee('action="'.route('contact.store').'"', false)
+        ->assertSee('name="_token"', false)
+        ->assertSeeText('hukuken onaylanmış bir aydınlatma metni henüz hazır değildir')
+        ->assertDontSee('<fieldset disabled>', false)
         ->assertSeeText('Henüz paylaşılmadı')
         ->assertDontSeeText('Mesajınız gönderildi');
 });
