@@ -10,6 +10,8 @@ class ProductRequest extends CatalogRequest
     public function rules(): array
     {
         return [
+            'meta_title' => ['nullable', 'string', 'max:255'],
+            'meta_description' => ['nullable', 'string', 'max:1000'],
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['required', 'string', 'max:255', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', Rule::unique('products', 'slug')->ignore($this->route('product'))],
             'category_id' => ['required', 'integer', 'exists:categories,id'],

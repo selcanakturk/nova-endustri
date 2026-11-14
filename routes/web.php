@@ -3,24 +3,28 @@
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MessageController;
+use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PostCategoryController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\QuoteController as AdminQuoteController;
+use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SessionController;
+use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\SitemapController;
+use App\Models\Service;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
 Route::view('/hakkimizda', 'hakkimizda')->name('about');
 Route::get('/urunler', [ProductController::class, 'index'])->name('products');
 Route::get('/urunler/{slug}', [ProductController::class, 'show'])->name('products.show');
-Route::view('/hizmetler', 'hizmetler', ['services' => config('nova.services')])->name('services');
+Route::get('/hizmetler', fn () => view('hizmetler', ['services' => Service::active()->ordered()->get()]))->name('services');
 Route::view('/iletisim', 'iletisim')->name('contact');
 Route::post('/iletisim', [ContactController::class, 'store'])->middleware('throttle:inquiries')->name('contact.store');
 Route::view('/aydinlatma', 'privacy')->name('privacy');
@@ -42,6 +46,12 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
     Route::post('/logout', [SessionController::class, 'destroy'])->middleware('auth')->name('logout');
 
     Route::middleware(['auth', 'admin'])->group(function (): void {
+        Route::get('/settings', [SiteSettingController::class, 'edit'])->name('settings.edit');
+        Route::put('/settings', [SiteSettingController::class, 'update'])->name('settings.update');
+        Route::resource('pages', PageController::class)->only(['index', 'edit', 'update']);
+        Route::get('/services/{service}/delete', [ServiceController::class, 'confirmDelete'])->name('services.delete');
+        Route::resource('services', ServiceController::class)->except('show');
+
         Route::post('/posts/preview', [AdminPostController::class, 'preview'])->name('posts.preview');
         Route::get('/posts/{post}/delete', [AdminPostController::class, 'confirmDelete'])->name('posts.delete');
         Route::resource('posts', AdminPostController::class)->except('show');

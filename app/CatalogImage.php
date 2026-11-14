@@ -5,6 +5,7 @@ namespace App;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Product;
+use App\Models\Service;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -14,7 +15,7 @@ use Throwable;
 class CatalogImage
 {
     /** @param array<string, mixed> $attributes */
-    public static function save(Product|Category|Post $entry, array $attributes, ?UploadedFile $image, bool $removeImage): void
+    public static function save(Product|Category|Post|Service $entry, array $attributes, ?UploadedFile $image, bool $removeImage): void
     {
         $imageField = $entry instanceof Post ? 'cover_image' : 'image';
         $previousImage = $entry->{$imageField};
@@ -56,7 +57,8 @@ class CatalogImage
         if (self::isUpload($path)
             && ! Product::where('image', $path)->exists()
             && ! Category::where('image', $path)->exists()
-            && ! Post::where('cover_image', $path)->exists()) {
+            && ! Post::where('cover_image', $path)->exists()
+            && ! CmsImage::referenced($path)) {
             Storage::disk('public')->delete($path);
         }
     }
@@ -80,6 +82,6 @@ class CatalogImage
 
     private static function isUpload(?string $path): bool
     {
-        return is_string($path) && preg_match('/\A(?:catalog|posts)\/[a-zA-Z0-9_-]+\.(?:jpg|jpeg|png|webp)\z/', $path) === 1;
+        return is_string($path) && preg_match('/\A(?:catalog|posts|cms)\/[a-zA-Z0-9_-]+\.(?:jpg|jpeg|png|webp)\z/', $path) === 1;
     }
 }

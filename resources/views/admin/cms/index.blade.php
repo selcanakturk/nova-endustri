@@ -1,0 +1,4 @@
+<x-admin.layout title="Sayfalar">
+<p class="admin-panel-description">Sabit adresleri ve tasarımı koruyarak her sayfanın bölümlerini düzenleyin. Ürünler ve blog içerikleri kendi menülerinden yönetilir.</p>
+<div class="admin-panel admin-table-wrap"><table class="admin-table"><thead><tr><th>Sayfa</th><th>Son güncelleme</th><th>İşlemler</th></tr></thead><tbody>@forelse($pages as $page)<tr><td>{{ $page->title }}</td><td>{{ $page->updated_at->format('d.m.Y H:i') }}</td><td><a class="admin-link" href="{{ route('admin.pages.edit', $page) }}">Bölümleri düzenle →</a> <a class="admin-link" href="{{ route($page->key) }}">Sitede aç ↗</a></td></tr>@empty<tr><td colspan="3">Kurumsal sayfalar henüz aktarılmadı.</td></tr>@endforelse</tbody></table></div>
+</x-admin.layout>

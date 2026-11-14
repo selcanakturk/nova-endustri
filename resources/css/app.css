@@ -261,3 +261,9 @@
 .inquiry-product h2 { font-size: 29px; }
 .inquiry-product p:not(.eyebrow) { color: #526b7c; font-size: 14px; margin-top: 20px; }
 }
+
+.site-logo { max-width: 160px; height: 48px; object-fit: contain; }
+.footer-contact { padding-block: 24px; display: flex; flex-wrap: wrap; gap: 16px; }
+.footer-contact p { white-space: pre-line; }
+.service-image { width: 100%; height: 180px; object-fit: cover; margin-bottom: 20px; border-radius: 8px; }
+.footer-grid p { white-space: pre-line; }

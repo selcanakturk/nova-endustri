@@ -1,4 +1,4 @@
-<x-layout :title="$product->name" :description="$product->short_description ?? 'Nova Endüstri örnek ürün kataloğu.'">
+<x-layout :og-image="$product->image ? $product->image_url : null" :title="$product->meta_title ?: $product->name" :description="$product->meta_description ?: $product->short_description ?? 'Nova Endüstri örnek ürün kataloğu.'">
     <x-page-heading :eyebrow="$product->category->name" :title="$product->name" :description="$product->short_description ?? 'Bu ürün grubunun teknik kapsamını projenizle birlikte değerlendirelim.'" />
     <section class="section">
         <div class="container">

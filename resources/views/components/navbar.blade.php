@@ -1,6 +1,6 @@
 <header class="site-header">
     <div class="container header-inner">
-        <a href="{{ route('home') }}" class="wordmark" aria-label="Nova Endüstri ana sayfa"><span class="brand-symbol" aria-hidden="true">N<span>↗</span></span><span>NOVA<span class="brand-sub">ENDÜSTRİ</span></span></a>
+        <a href="{{ route('home') }}" class="wordmark" aria-label="{{ $siteSettings['company_name'] }} ana sayfa">@if($siteSettings['logo'])<img class="site-logo" src="{{ \App\CatalogImage::url($siteSettings['logo']) }}" alt="{{ $siteSettings['company_name'] }}" width="160" height="48">@else<span class="brand-symbol" aria-hidden="true">N<span>↗</span></span>@if($siteSettings['company_name'] === 'Nova Endüstri')<span>NOVA<span class="brand-sub">ENDÜSTRİ</span></span>@else<span>{{ $siteSettings['company_name'] }}</span>@endif @endif</a>
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navigation" hidden>Menü <span aria-hidden="true">☰</span></button>
         <nav id="navigation" aria-label="Ana menü">
             @foreach (['home' => 'Ana Sayfa', 'about' => 'Hakkımızda', 'products' => 'Ürünler', 'services' => 'Hizmetler', 'blog.index' => 'Blog', 'news.index' => 'Haberler', 'contact' => 'İletişim'] as $name => $label)

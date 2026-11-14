@@ -19,6 +19,7 @@
         <span class="admin-nav-heading">ÇALIŞMA ALANI</span>
         <nav aria-label="Yönetim menüsü">
             <a href="{{ route('admin.dashboard') }}" @if(request()->routeIs('admin.dashboard')) aria-current="page" @endif><span aria-hidden="true">▦</span> Genel bakış</a>
+            @foreach(['pages' => 'Sayfalar', 'services' => 'Hizmetler', 'settings' => 'Site Ayarları'] as $resource => $label)<a href="{{ route('admin.'.$resource.($resource === 'settings' ? '.edit' : '.index')) }}" @if(request()->routeIs('admin.'.$resource.'.*')) aria-current="page" @endif><span aria-hidden="true">▤</span> {{ $label }}</a>@endforeach
             <a href="{{ route('admin.products.index') }}" @if(request()->routeIs('admin.products.*')) aria-current="page" @endif><span aria-hidden="true">◇</span> Ürünler</a>
             <a href="{{ route('admin.categories.index') }}" @if(request()->routeIs('admin.categories.*')) aria-current="page" @endif><span aria-hidden="true">▤</span> Kategoriler</a>
             <a href="{{ route('admin.posts.index') }}" @if(request()->routeIs('admin.posts.*')) aria-current="page" @endif><span aria-hidden="true">▧</span> İçerikler</a>

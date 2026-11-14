@@ -8,7 +8,7 @@ test('catalog lists database products in stable order and eager loads categories
     Product::factory()->for($category)->create(['name' => 'Last component', 'sort_order' => 9]);
     Product::factory()->for($category)->create(['name' => 'First component', 'sort_order' => 1]);
     Product::factory()->for($category)->create(['name' => 'Second component', 'sort_order' => 1]);
-    $this->expectsDatabaseQueryCount(4);
+    $this->expectsDatabaseQueryCount(5);
 
     $this->get('/urunler')
         ->assertOk()
@@ -167,7 +167,7 @@ test('home shows at most three ordered published featured products from the data
     Product::factory()->featured()->inactive()->for($category)->create(['name' => 'Inactive feature']);
     Product::factory()->featured()->for(Category::factory()->inactive())->create(['name' => 'Hidden category feature']);
     Product::factory()->for($category)->create(['name' => 'Ordinary product']);
-    $this->expectsDatabaseQueryCount(3);
+    $this->expectsDatabaseQueryCount(6);
 
     $this->get('/')->assertOk()
         ->assertSeeInOrder(['First feature', 'Second feature', 'Third feature'])
