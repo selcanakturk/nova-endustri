@@ -15,8 +15,10 @@ class DashboardController extends Controller
 {
     public function __invoke(): View
     {
-        $totalProducts = Product::count();
-        $activeProducts = Product::active()->count();
+        $productCounts = Product::toBase()->selectRaw('COUNT(*) AS total, COUNT(CASE WHEN is_active = ? THEN 1 END) AS active', [true])->first();
+        $postCounts = Post::toBase()->selectRaw('COUNT(*) AS total, COUNT(CASE WHEN status = ? THEN 1 END) AS draft', ['draft'])->first();
+        $totalProducts = (int) $productCounts->total;
+        $activeProducts = (int) $productCounts->active;
 
         return view('admin.dashboard', [
             'stats' => [
@@ -25,7 +27,7 @@ class DashboardController extends Controller
                 'inactive_products' => $totalProducts - $activeProducts,
                 'total_categories' => Category::count(),
             ],
-            'contentStats' => ['total' => Post::count(), 'published' => Post::visible()->count(), 'draft' => Post::where('status', 'draft')->count(), 'categories' => PostCategory::count()],
+            'contentStats' => ['total' => (int) $postCounts->total, 'published' => Post::visible()->count(), 'draft' => (int) $postCounts->draft, 'categories' => PostCategory::count()],
             'inquiryStats' => ['messages' => ContactMessage::newlyReceived()->count(), 'quotes' => QuoteRequest::newlyReceived()->count()],
             'recentMessages' => ContactMessage::ordered()->limit(4)->get(),
             'recentQuotes' => QuoteRequest::ordered()->limit(4)->get(),

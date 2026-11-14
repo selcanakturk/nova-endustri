@@ -26,7 +26,7 @@ class PostRequest extends CatalogRequest
             'published_at' => ['nullable', 'required_if:status,published', 'date_format:Y-m-d\TH:i'],
             'is_featured' => ['required', 'boolean'], 'sort_order' => ['required', 'integer', 'between:0,2147483647'],
             'meta_title' => ['nullable', 'string', 'max:70'], 'meta_description' => ['nullable', 'string', 'max:160'],
-            'cover_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'extensions:jpg,jpeg,png,webp', 'max:4096'],
+            'cover_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'extensions:jpg,jpeg,png,webp', 'max:4096', 'dimensions:max_width=6000,max_height=6000'],
             'remove_image' => ['sometimes', 'boolean'],
         ];
     }

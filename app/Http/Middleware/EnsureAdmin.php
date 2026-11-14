@@ -12,9 +12,6 @@ class EnsureAdmin
     {
         abort_unless($request->user()?->is_admin, 403, 'Bu alana yalnızca yöneticiler erişebilir.');
 
-        $response = $next($request);
-        $response->headers->set('Cache-Control', 'no-store, private');
-
-        return $response;
+        return $next($request);
     }
 }

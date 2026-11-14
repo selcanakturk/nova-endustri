@@ -15,7 +15,7 @@ class CategoryRequest extends CatalogRequest
             'description' => ['nullable', 'string', 'max:10000'],
             'sort_order' => ['required', 'integer', 'between:0,2147483647'],
             'is_active' => ['required', 'boolean'],
-            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'extensions:jpg,jpeg,png,webp', 'max:4096'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'extensions:jpg,jpeg,png,webp', 'max:4096', 'dimensions:max_width=6000,max_height=6000'],
             'remove_image' => ['sometimes', 'boolean'],
         ];
     }

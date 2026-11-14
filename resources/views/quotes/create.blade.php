@@ -1,4 +1,4 @@
-<x-layout :title="$product->name.' — Teklif talebi'" description="Ürün ve miktar bilgilerinizi paylaşarak Nova Endüstri’ye teklif talebinizi iletin.">
+<x-layout robots="noindex, nofollow" :title="$product->name.' — Teklif talebi'" description="Ürün ve miktar bilgilerinizi paylaşarak Nova Endüstri’ye teklif talebinizi iletin.">
     <x-page-heading eyebrow="Teklif Talebi" title="İhtiyacınızı birlikte netleştirelim." description="Ürün ve miktar bilgilerinizi paylaşın; talebinizi değerlendirmek için ilk adımı atalım." />
     <section class="section"><div class="container contact-grid"><div><a class="inline-link" href="{{ route('products.show', $product->slug) }}">← Ürün detayına dön</a><figure class="inquiry-product"><img src="{{ $product->image_url }}" alt="{{ $product->name }} için temsili görsel" width="640" height="440"><figcaption><p class="eyebrow">{{ $product->category->name }}</p><h2>{{ $product->name }}</h2><p>{{ $product->short_description }}</p></figcaption></figure><p class="catalog-note">Bu form bir talep kaydı oluşturur. Fiyat veya satın alma taahhüdü içermez.</p></div>
         <div class="contact-form"><h2>Teklif isteyin</h2><x-inquiry-feedback />

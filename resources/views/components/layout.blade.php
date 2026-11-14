@@ -1,4 +1,4 @@
-@props(['title' => null, 'description' => null, 'canonical' => null, 'ogImage' => null, 'ogType' => 'website', 'ogTitle' => null, 'ogDescription' => null])
+@props(['title' => null, 'description' => null, 'canonical' => null, 'ogImage' => null, 'ogType' => 'website', 'ogTitle' => null, 'ogDescription' => null, 'robots' => null])
 @php
     $title = $title ?: $siteSettings['default_meta_title'];
     $description = $description ?: $siteSettings['default_meta_description'];
@@ -9,6 +9,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    @if($robots)<meta name="robots" content="{{ $robots }}">@endif
     <meta name="description" content="{{ $description }}">
     <link rel="canonical" href="{{ $canonical ?? url()->current() }}">
     <meta property="og:title" content="{{ $ogTitle ?: $title }} | {{ $siteSettings['company_name'] }}">

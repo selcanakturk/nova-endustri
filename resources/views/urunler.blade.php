@@ -1,4 +1,4 @@
-<x-layout title="Ürünler" description="Talaşlı imalat, mekanik sistemler ve metal konstrüksiyon için örnek endüstriyel ürün grupları.">
+<x-layout :canonical="$canonical" title="Ürünler" description="Talaşlı imalat, mekanik sistemler ve metal konstrüksiyon için örnek endüstriyel ürün grupları.">
     <x-page-heading eyebrow="Ürünler" title="Her parça, bir çözümün başlangıcı." description="Mekanik bileşenlerden özel üretim gövdelere, endüstriyel ihtiyaçlara yönelik ürün gruplarını keşfedin." />
     <section class="section">
         <div class="container">

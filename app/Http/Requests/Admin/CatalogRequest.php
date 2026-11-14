@@ -43,6 +43,7 @@ abstract class CatalogRequest extends FormRequest
             'between' => ':attribute :min ile :max arasında olmalıdır.',
             'boolean' => ':attribute için geçerli bir seçim yapın.',
             'regex' => 'Slug yalnızca küçük harf, rakam ve aralarda kısa çizgi içerebilir.',
+            'dimensions' => ':attribute en fazla 6000 × 6000 piksel olabilir.',
             'image' => 'Geçerli bir görsel dosyası yükleyin.',
             'mimes' => 'Yalnızca JPG, PNG veya WebP görselleri yükleyebilirsiniz.',
             'extensions' => 'Dosya uzantısı JPG, JPEG, PNG veya WebP olmalıdır.',

@@ -25,8 +25,11 @@ class ProductController extends Controller
             $query->whereBelongsTo($selectedCategory);
         }
 
+        $products = $query->paginate(12)->appends(['category' => $selectedCategory?->slug]);
+
         return view('urunler', [
-            'products' => $query->paginate(12)->appends(['category' => $selectedCategory?->slug]),
+            'products' => $products,
+            'canonical' => route('products', array_filter(['category' => $selectedCategory?->slug, 'page' => $products->currentPage() > 1 ? $products->currentPage() : null])),
             'categories' => Category::active()->ordered()->get(),
             'selectedCategory' => $selectedCategory,
         ]);

@@ -22,6 +22,9 @@ if (menuButton && navigation) {
             closeMenu();
         }
     });
+    document.addEventListener('focusin', (event) => {
+        if (!event.target.closest('.site-header')) closeMenu();
+    });
     navigation.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
     window.matchMedia('(min-width: 1024px)').addEventListener('change', closeMenu);
 }

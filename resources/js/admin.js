@@ -4,13 +4,21 @@ if (toggle && sidebar) {
     toggle.hidden = false;
     const closeMenu = () => toggle.setAttribute('aria-expanded', 'false');
     toggle.addEventListener('click', () => {
-        toggle.setAttribute('aria-expanded', String(toggle.getAttribute('aria-expanded') !== 'true'));
+        const isExpanded = toggle.getAttribute('aria-expanded') !== 'true';
+        toggle.setAttribute('aria-expanded', String(isExpanded));
+        if (isExpanded) sidebar.querySelector('nav a')?.focus();
     });
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
             closeMenu();
             toggle.focus();
         }
+    });
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('.admin-sidebar, .admin-menu-button')) closeMenu();
+    });
+    document.addEventListener('focusin', (event) => {
+        if (!event.target.closest('.admin-sidebar, .admin-menu-button')) closeMenu();
     });
     window.matchMedia('(min-width: 1024px)').addEventListener('change', closeMenu);
 }
