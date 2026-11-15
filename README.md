@@ -6,6 +6,38 @@ Nova Endüstri, kurgusal bir endüstriyel firmanın web sitesini ve içerik oper
 
 Proje; Laravel backend geliştirme, ilişkisel veri modelleme, yetkilendirme, CRUD, CMS ve otomatik test çalışmalarını birlikte göstermek için hazırlanmıştır. Firma, ürünler, haberler ve teknik çizimler temsilidir; gerçek bir müşteri işi, üretim kapasitesi veya ticari başarı iddiası içermez.
 
+[Ekran görüntüleri](#ekran-görüntüleri) · [Özellikler](#özellikler) · [Yerel kurulum](#yerel-kurulum) · [Testler](#testler-ve-kalite-kontrolleri)
+
+## Ekran görüntüleri
+
+Ekranlar yerelde çalışan Nova Endüstri uygulamasından alındı. Yönetim panelindeki kullanıcı ve teklif bilgileri portföy için hazırlanmış örnek kayıtlardır.
+
+![Nova Endüstri ana sayfası ve teknik ürün illüstrasyonu](docs/screenshots/ana-sayfa.jpg)
+
+| Ürün kataloğu | Ürün detayı |
+| --- | --- |
+| ![Kategori filtreleri ve ürün kartları](docs/screenshots/katalog.jpg) | ![Teknik ürün görseli, açıklama ve teklif bağlantısı](docs/screenshots/urun-detayi.jpg) |
+
+| Blog ve içgörüler | Yönetim paneli |
+| --- | --- |
+| ![Kategori filtresi ve blog yazıları](docs/screenshots/blog.jpg) | ![Katalog ve teklif sayaçlarının yer aldığı yönetim özeti](docs/screenshots/admin-dashboard.jpg) |
+
+| Ürün yönetimi | Teklif yönetimi |
+| --- | --- |
+| ![Ürün filtreleri ve yönetim tablosu](docs/screenshots/admin-urunler.jpg) | ![Kurgusal teklif kaydının yer aldığı yönetim tablosu](docs/screenshots/admin-teklifler.jpg) |
+
+![Kurumsal ana sayfanın alan bazlı CMS düzenleme ekranı](docs/screenshots/admin-cms.jpg)
+
+| Telefon menüsü | Telefon kataloğu | Telefon teklif formu |
+| --- | --- | --- |
+| ![375 pikselde açık site menüsü](docs/screenshots/ana-sayfa-mobil-menu.jpg) | ![375 pikselde ürün kataloğu](docs/screenshots/katalog-mobil-375.jpg) | ![375 pikselde teklif formu](docs/screenshots/teklif-mobil-375.jpg) |
+
+[Tablet kataloğu](docs/screenshots/katalog-mobil-768.jpg) · [Telefonda yönetim paneli](docs/screenshots/admin-mobil-375.jpg) · [Tablette yönetim paneli](docs/screenshots/admin-mobil-768.jpg)
+
+### Demo
+
+Portföy sunumu GitHub’daki ekran görüntülerinden ve [yerel kurulum](#yerel-kurulum) adımlarından oluşur. Uygulamayı örnek katalog ve CMS içerikleriyle yerelde çalıştırabilirsiniz.
+
 ## Özellikler
 
 | Ziyaretçi arayüzü | Yönetim paneli |
@@ -124,7 +156,7 @@ php artisan route:list --except-vendor --no-interaction
 php artisan migrate:status --no-interaction
 ```
 
-Son doğrulama: **430 test, 1.944 assertion**, Composer audit temiz; Pint, production build ve Blade derlemesi başarılı. Uygulamada 70 uygulama rotası ve uygulanmış 14 migration bulunur. Test veritabanı `phpunit.xml` ile zorunlu olarak `sqlite :memory:` kullanır; geliştirme veritabanına yazmaz.
+15 Kasım 2026 doğrulamasında **430 test ve 1.944 doğrulama**, üretim derlemesi ve Blade derlemesi başarılıydı. Önceki temiz kurulum kontrolünde Composer audit ve Pint de geçti. Uygulamada 70 uygulama rotası ve uygulanmış 14 migration bulunur. Testler `phpunit.xml` üzerinden `sqlite :memory:` kullanır. Testleri önbelleğe alınmış üretim yapılandırması bulunan bir dizinde çalıştırmayın. Ayrı bir test kopyası kullanın veya çalıştırmadan önce o kopyada `php artisan config:clear --no-interaction` çalıştırın.
 
 Testler; yetkilendirme, CRUD, görünürlük, kategori filtreleri, sayfalama, CMS, seeder idempotence, dosya sınırları/paylaşılan görseller, Markdown/XSS, CSRF, hız sınırlama, durum geçişleri, mail hataları, SEO ve hata ekranlarını kapsar. Otomatik test başarısı, tüm tarayıcılarda görsel doğrulama veya mutlak güvenlik garantisi anlamına gelmez.
 
@@ -134,26 +166,9 @@ Faz 7 sırasında, geliştirme `.env` dosyası ve veritabanı kopyalanmadan ayr�
 
 Bu doğrulama mevcut macOS ortamında PHP 8.5.0 ve Node.js 23.9.0 ile yapıldı; başka işletim sisteminde veya minimum sürümlerde ayrıca çalıştırılmış bir test değildir.
 
-## Ekran görüntüleri ve demo
+## Demo notları
 
-Henüz bu README’ye ekran görüntüsü eklenmemiştir. Tarayıcı otomasyonuna erişilemediği için gerçek ekran görüntüleri ve 375/768/1440 px görsel kontrolleri tamamlanamamıştır; kırık görsel bağlantıları veya temsili screenshot kullanılmaz.
-
-Erişim sağlandığında ana sayfa, katalog, ürün detayı, blog, admin dashboard, ürün yönetimi, teklif yönetimi ve CMS düzenleme ekranları `docs/screenshots/` altında optimize edilmiş gerçek görsellerle sunulacaktır. Admin görselleri, geliştirme veritabanı yerine güvenli örnek veriler içeren izole ortamdan alınmalı; kişisel bilgiler gösterilmemelidir.
-
-Canlı demo bağlantısı henüz yoktur. Yerel çalıştırma yayına alınmış demo anlamına gelmez.
-
-## Yayına hazırlık ve sınırlar
-
-- PHP uygulamasını çalıştırabilen bir sunucu gerekir; bu Laravel uygulaması doğrudan GitHub Pages üzerinde çalışmaz.
-- SQLite dosyası, public upload’lar ve session/cache verileri için kalıcı ve yazılabilir depolama gerekir. Web kökü yalnızca `public/` olmalı; `.env`, veritabanı ve log’lar doğrudan sunulmamalıdır.
-- Production ortamında `APP_ENV=production`, `APP_DEBUG=false`, benzersiz ve kalıcı `APP_KEY`, doğru `APP_URL`, HTTPS ve secure session cookie yapılandırın. Proxy güvenini yalnızca kullanılan altyapıya göre belirleyin.
-- `storage/` ve `bootstrap/cache/` uygulama kullanıcısı tarafından yazılabilmeli; herkese yazma izni vermeyin. Public disk bağlantısını ve dosya URL’lerini doğrulayın.
-- Dağıtımlarda yedek alıp ileri yönlü `php artisan migrate --force --no-interaction` kullanın; mevcut veritabanını sıfırlamayın. Üretimde demo seeder’larını otomatik çalıştırmayın.
-- İnternete açık demo formları gerçek kişisel veri toplayabilir. Yayından önce veri sorumlusu, aydınlatma metni, saklama/silme süresi ve erişim yetkilerini belirleyin. `/aydinlatma` sayfası hukuken onaylanmış bir KVKK metni değildir.
-- Rate limit ve honeypot spam riskini tamamen ortadan kaldırmaz. Formları yayımlama kararı, ziyaretçi bildirimleri ve gerekirse ilave koruma önlemleri hosting kararının parçasıdır.
-- Yönetici hesabını herkese açık paylaşmayın. Panel gösterimi için özel, sınırlı erişim veya kişisel verisiz ayrı bir demo ortamı planlayın.
-
-Barındırma seçenekleri ve teslimden önce yapılacak kontroller için [demo hazırlık notlarına](docs/DEMO.md) bakın. Bu depo bir otomatik deployment akışı içermez.
+[Demo notları](docs/DEMO.md) yerel prova sonuçlarını, görsel kontrol kapsamını ve olası bir dağıtım için teknik gereksinimleri içerir.
 
 ## Lisans
 
